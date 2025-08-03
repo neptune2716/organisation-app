@@ -50,3 +50,7 @@ This workspace is configured for Android mobile app development using:
 - Project name: organisation-app
 - App name: Organisation App
 - Package: com.example.organisationapp
+
+## deployment
+- if possible use the "full deploy on physical" task
+- if not, use the "full deploy on emulator" task
