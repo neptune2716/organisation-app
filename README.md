@@ -5,14 +5,16 @@ Application Android d'org### Via les tâches intégrées (`Ctrl+Shift+P` → "Ta
 - **Build App** - Compiler l'application
 - **Install Device** - Installer sur téléphone USB (avec build automatique)
 - **Launch App** - Compiler et installer en une étape
+- **Full Deploy** - Build, install ET lance l'app automatiquement ⭐
 - **Clean Project** - Nettoyer le projet
 - **Clean Build** - Nettoyer et recompiler complètement
 - **List Devices** - Voir les appareils connectés
 - **Check App** - Vérifier que l'app est installée
 
 ### Raccourcis clavier recommandés
-- **F5** : Lancer "Launch App" (à configurer dans les raccourcis VS Code)
-- **Ctrl+Shift+B** : Menu de build rapide vie créée avec Kotlin et Jetpack Compose, optimisée pour le développement avec Visual Studio Code.
+- **Ctrl+Shift+F2** : Lancer "Full Deploy" - Workflow complet en un clic ! ⚡
+- **Ctrl+Shift+R** : Alternative pour "Full Deploy"
+- **Ctrl+Shift+B** : Build rapide uniquement vie créée avec Kotlin et Jetpack Compose, optimisée pour le développement avec Visual Studio Code.
 
 ## ✨ Fonctionnalités Prévues
 - 📅 **Agenda intelligent** des prochains jours
@@ -109,7 +111,12 @@ adb shell pm list packages | findstr organisationapp  # Vérifier l'installation
 1. **Connectez votre appareil Android** (mode développeur + débogage USB activé)
 2. **Vérifiez la connexion** : `Ctrl+Shift+P` → "Tasks: Run Task" → "List Devices"
 3. **Développez votre code** dans VS Code
-4. **Testez rapidement** : `Ctrl+Shift+P` → "Tasks: Run Task" → "Launch App"
+4. **Testez ultra-rapidement** : Appuyez sur **Ctrl+Shift+F2** pour build + install + launch ! ⚡
+
+### Workflow développement express :
+- **Ctrl+Shift+F2** : Build, install et lance l'app sur votre téléphone
+- **Ctrl+Shift+R** : Alternative si le premier ne fonctionne pas
+- Modifiez votre code → **Ctrl+Shift+F2** → testez immédiatement !
 
 ### En cas de problème :
 1. **Nettoyage complet** : "Clean Build"
