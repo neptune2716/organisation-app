@@ -1,7 +1,18 @@
 # Organisation App 📱
 
 ## Description
-Application Android d'organisation de vie créée avec Kotlin et Jetpack Compose, optimisée pour le développement avec Visual Studio Code.
+Application Android d'org### Via les tâches intégrées (`Ctrl+Shift+P` → "Tasks: Run Task")
+- **Build App** - Compiler l'application
+- **Install Device** - Installer sur téléphone USB (avec build automatique)
+- **Launch App** - Compiler et installer en une étape
+- **Clean Project** - Nettoyer le projet
+- **Clean Build** - Nettoyer et recompiler complètement
+- **List Devices** - Voir les appareils connectés
+- **Check App** - Vérifier que l'app est installée
+
+### Raccourcis clavier recommandés
+- **F5** : Lancer "Launch App" (à configurer dans les raccourcis VS Code)
+- **Ctrl+Shift+B** : Menu de build rapide vie créée avec Kotlin et Jetpack Compose, optimisée pour le développement avec Visual Studio Code.
 
 ## ✨ Fonctionnalités Prévues
 - 📅 **Agenda intelligent** des prochains jours
@@ -66,24 +77,44 @@ Les extensions suivantes seront suggérées automatiquement :
 
 ### Via les tâches intégrées (`Ctrl+Shift+P` → "Tasks: Run Task")
 - 🔧 **Build Android App** - Compiler l'application
-- 📱 **Install on Connected Device** - Installer sur téléphone USB
+- 📱 **Install on Connected Device** - Installer sur téléphone USB (avec build automatique)
+- 🚀 **Build and Launch App** - Compiler et installer en une étape
 - 🧹 **Clean Project** - Nettoyer le projet
-- 📱 **List Connected Devices** - Voir les appareils connectés
+- � **Clean and Build** - Nettoyer et recompiler complètement
+- �📱 **List Connected Devices** - Voir les appareils connectés
+- 🔍 **Check App Info** - Vérifier que l'app est installée
+
+### Raccourcis clavier recommandés
+- **F5** : Lancer "🚀 Build and Launch App" (à configurer dans les raccourcis VS Code)
+- **Ctrl+Shift+B** : Menu de build rapide
 
 ### Via le terminal
 ```powershell
-# Compiler
-.\gradlew.bat build
+# Workflow de développement rapide
+.\gradlew.bat installDebug    # Compiler et installer directement
 
-# Installer sur appareil connecté
-.\gradlew.bat installDebug
+# Commandes individuelles
+.\gradlew.bat build          # Compiler seulement
+.\gradlew.bat clean          # Nettoyer
+.\gradlew.bat clean build    # Nettoyer et recompiler
 
-# Nettoyer
-.\gradlew.bat clean
-
-# Vérifier les appareils
-adb devices
+# Vérification des appareils
+adb devices                  # Lister les appareils
+adb shell pm list packages | findstr organisationapp  # Vérifier l'installation
 ```
+
+## 🔄 Workflow de Développement Recommandé
+
+### Pour le développement quotidien :
+1. **Connectez votre appareil Android** (mode développeur + débogage USB activé)
+2. **Vérifiez la connexion** : `Ctrl+Shift+P` → "Tasks: Run Task" → "List Devices"
+3. **Développez votre code** dans VS Code
+4. **Testez rapidement** : `Ctrl+Shift+P` → "Tasks: Run Task" → "Launch App"
+
+### En cas de problème :
+1. **Nettoyage complet** : "Clean Build"
+2. **Vérification de l'installation** : "Check App"
+3. **Debug** : Voir section dépannage ci-dessous
 
 ## 📱 Test sur appareil réel
 
@@ -124,6 +155,8 @@ adb devices
 
 - [x] ✅ Configuration projet Android + VS Code
 - [x] ✅ Setup développement et build
+- [x] ✅ Configuration des tâches VS Code pour workflow optimal
+- [x] ✅ Test d'installation et lancement sur appareil réel
 - [ ] 🏠 Interface principale avec navigation
 - [ ] 📅 Module agenda/calendrier
 - [ ] ✅ Module gestion de tâches  
