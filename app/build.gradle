@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.22'
 }
 
 // Fonction pour lire le fichier .env
@@ -29,6 +30,7 @@ android {
         // Ajouter les variables d'environnement dans BuildConfig
         buildConfigField "String", "SUPABASE_URL", "\"${envProps.SUPABASE_URL ?: ''}\""
         buildConfigField "String", "SUPABASE_ANON_KEY", "\"${envProps.SUPABASE_ANON_KEY ?: ''}\""
+        buildConfigField "String", "GOOGLE_WEB_CLIENT_ID", "\"${envProps.GOOGLE_WEB_CLIENT_ID ?: ''}\""
     }
 
     buildTypes {
@@ -81,6 +83,9 @@ dependencies {
     
     // Ktor Client pour Android (requis pour Supabase)
     implementation "io.ktor:ktor-client-android:2.3.4"
+    
+    // Google Sign-In
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
     
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"

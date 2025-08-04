@@ -179,6 +179,7 @@ adb shell pm list packages | findstr organisationapp  # Vérifier l'installation
 - **Java version incorrecte** → Utilisez Java 17
 - **Appareil non détecté** → Vérifiez le mode développeur et le débogage USB
 - **Build failed** → Lancez `.\gradlew.bat clean` puis `.\gradlew.bat build`
+on utilise gotrue-kt 1.4.7
 
 ## 📚 Ressources
 - [Guide Jetpack Compose](https://developer.android.com/jetpack/compose)

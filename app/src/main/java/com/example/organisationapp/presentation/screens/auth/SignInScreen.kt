@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -216,10 +217,9 @@ fun SignInScreen(
         
         Spacer(modifier = Modifier.height(16.dp))
         
-        // Bouton Google (placeholder pour l'instant)
+        // Bouton Google Sign-In (implémentation traditionnelle)
         OutlinedButton(
-            onClick = {
-                // TODO: Implémenter la connexion Google
+            onClick = { 
                 authViewModel.signInWithGoogle()
             },
             modifier = Modifier

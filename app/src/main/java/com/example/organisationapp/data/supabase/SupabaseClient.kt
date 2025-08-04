@@ -1,11 +1,12 @@
 package com.example.organisationapp.data.supabase
 
 import io.github.jan.supabase.gotrue.GoTrue
+import io.github.jan.supabase.gotrue.providers.Google
 import io.github.jan.supabase.createSupabaseClient
 import com.example.organisationapp.BuildConfig
 
 /**
- * Supabase client configuration
+ * Supabase client configuration with Google OAuth support
  */
 object SupabaseClient {
     

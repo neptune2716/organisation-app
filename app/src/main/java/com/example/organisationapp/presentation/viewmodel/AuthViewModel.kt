@@ -29,7 +29,7 @@ class AuthViewModel : ViewModel() {
         
         // Observer les changements d'état d'authentification
         viewModelScope.launch {
-            authRepository.getAuthStateFlow().collect { sessionStatus ->
+            authRepository.getAuthStateFlow().collect { _ ->
                 _uiState.value = _uiState.value.copy(
                     user = authRepository.getCurrentUser(),
                     isLoggedIn = authRepository.isLoggedIn()
@@ -61,6 +61,8 @@ class AuthViewModel : ViewModel() {
                 .onFailure { exception ->
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
+                        user = null,
+                        isLoggedIn = false,
                         error = exception.message ?: "Erreur de connexion"
                     )
                 }
@@ -94,6 +96,8 @@ class AuthViewModel : ViewModel() {
                 .onFailure { exception ->
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
+                        user = null,
+                        isLoggedIn = false,
                         error = exception.message ?: "Erreur d'inscription"
                     )
                 }
@@ -116,6 +120,8 @@ class AuthViewModel : ViewModel() {
                 .onFailure { exception ->
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
+                        user = null,
+                        isLoggedIn = false,
                         error = exception.message ?: "Erreur de connexion Google"
                     )
                 }
