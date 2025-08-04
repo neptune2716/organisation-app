@@ -5,6 +5,9 @@ build/
 # Local configuration file (sdk path, etc)
 local.properties
 
+# Environment variables (IMPORTANT: protect API keys)
+.env
+
 # Android Studio generated files
 *.iml
 .idea/

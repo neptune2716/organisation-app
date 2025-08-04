@@ -3,14 +3,21 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+// Fonction pour lire le fichier .env
+def envFile = file('../.env')
+def envProps = new Properties()
+if (envFile.exists()) {
+    envFile.withInputStream { envProps.load(it) }
+}
+
 android {
     namespace 'com.example.organisationapp'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.organisationapp"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -18,6 +25,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        
+        // Ajouter les variables d'environnement dans BuildConfig
+        buildConfigField "String", "SUPABASE_URL", "\"${envProps.SUPABASE_URL ?: ''}\""
+        buildConfigField "String", "SUPABASE_ANON_KEY", "\"${envProps.SUPABASE_ANON_KEY ?: ''}\""
     }
 
     buildTypes {
@@ -35,6 +46,7 @@ android {
     }
     buildFeatures {
         compose true
+        buildConfig true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.4.8'
@@ -62,6 +74,16 @@ dependencies {
     // Navigation Compose
     implementation "androidx.navigation:navigation-compose:2.6.0"
     implementation "androidx.navigation:navigation-runtime-ktx:2.6.0"
+    
+    // Supabase dependencies with stable versions
+    implementation "io.github.jan-tennert.supabase:supabase-kt:1.4.7"
+    implementation "io.github.jan-tennert.supabase:gotrue-kt:1.4.7"
+    
+    // Ktor Client pour Android (requis pour Supabase)
+    implementation "io.ktor:ktor-client-android:2.3.4"
+    
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
     
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

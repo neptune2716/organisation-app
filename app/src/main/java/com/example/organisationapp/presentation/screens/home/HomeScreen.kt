@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -12,12 +13,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.organisationapp.presentation.viewmodel.AuthViewModel
+import com.example.organisationapp.presentation.viewmodel.getDisplayName
 import com.example.organisationapp.ui.theme.OrganisationAppTheme
 import java.util.*
 
@@ -29,7 +34,10 @@ fun HomeScreen(
     onNavigateToHabits: () -> Unit = {},
     onNavigateToNotes: () -> Unit = {},
     onNavigateToSport: () -> Unit = {},
-    onNavigateToScreenTime: () -> Unit = {}
+    onNavigateToScreenTime: () -> Unit = {},
+    onNavigateToProfile: () -> Unit = {},
+    onNavigateToSignIn: () -> Unit = {},
+    authViewModel: AuthViewModel = viewModel()
 ) {
     val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     val greeting = when (currentHour) {
@@ -38,6 +46,8 @@ fun HomeScreen(
         in 18..22 -> "Bonsoir"
         else -> "Bonne nuit"
     }
+    
+    val uiState by authViewModel.uiState.collectAsState()
 
     val widgets = listOf(
         HomeWidget(
@@ -89,21 +99,78 @@ fun HomeScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Salutation personnalisée
-        Text(
-            text = "$greeting !",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+        // Header avec salutation et icône de profil
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "$greeting !",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                
+                Text(
+                    text = if (uiState.isLoggedIn) {
+                        val user = uiState.user
+                        val username = user?.getDisplayName()
+                        
+                        "Bienvenue ${username ?: user?.email?.substringBefore("@") ?: "utilisateur"} !"
+                    } else {
+                        "Votre organisation du jour"
+                    },
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            
+            // Icône de profil
+            Surface(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape),
+                color = if (uiState.isLoggedIn) {
+                    MaterialTheme.colorScheme.primaryContainer
+                } else {
+                    MaterialTheme.colorScheme.surfaceVariant
+                },
+                onClick = {
+                    if (uiState.isLoggedIn) {
+                        onNavigateToProfile()
+                    } else {
+                        onNavigateToSignIn()
+                    }
+                }
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = if (uiState.isLoggedIn) {
+                            Icons.Default.Person // Photo de profil si connecté
+                        } else {
+                            Icons.Default.AccountCircle // Icône vide si non connecté
+                        },
+                        contentDescription = if (uiState.isLoggedIn) {
+                            "Profil utilisateur"
+                        } else {
+                            "Se connecter"
+                        },
+                        tint = if (uiState.isLoggedIn) {
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+        }
         
-        Text(
-            text = "Votre organisation du jour",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
+        Spacer(modifier = Modifier.height(24.dp))
 
         // Indicateurs de progression globaux (placeholder)
         Card(

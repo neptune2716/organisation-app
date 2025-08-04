@@ -14,4 +14,8 @@ sealed class Screen(val route: String, val title: String) {
     object Profile : Screen("profile", "Profil")
     object Settings : Screen("settings", "Paramètres")
     object Help : Screen("help", "Aide")
+    
+    // Écrans d'authentification
+    object SignIn : Screen("sign_in", "Connexion")
+    object SignUp : Screen("sign_up", "Inscription")
 }
