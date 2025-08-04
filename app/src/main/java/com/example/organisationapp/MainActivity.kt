@@ -6,10 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.organisationapp.presentation.navigation.OrganisationNavGraph
 import com.example.organisationapp.ui.theme.OrganisationAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Organisation App")
+                    OrganisationApp()
                 }
             }
         }
@@ -30,17 +31,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Bienvenue dans $name!",
-        modifier = modifier
-    )
+fun OrganisationApp() {
+    val navController = rememberNavController()
+    OrganisationNavGraph(navController = navController)
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun OrganisationAppPreview() {
     OrganisationAppTheme {
-        Greeting("Organisation App")
+        OrganisationApp()
     }
 }

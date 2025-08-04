@@ -1,0 +1,181 @@
+package com.example.organisationapp.presentation.screens.home
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.organisationapp.ui.theme.OrganisationAppTheme
+import java.util.*
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeScreen(
+    onNavigateToTasks: () -> Unit = {},
+    onNavigateToCalendar: () -> Unit = {},
+    onNavigateToHabits: () -> Unit = {},
+    onNavigateToNotes: () -> Unit = {},
+    onNavigateToSport: () -> Unit = {},
+    onNavigateToScreenTime: () -> Unit = {}
+) {
+    val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+    val greeting = when (currentHour) {
+        in 5..11 -> "Bonjour"
+        in 12..17 -> "Bon après-midi"
+        in 18..22 -> "Bonsoir"
+        else -> "Bonne nuit"
+    }
+
+    val widgets = listOf(
+        HomeWidget(
+            id = "tasks",
+            title = "Prochaines tâches",
+            icon = Icons.Default.CheckCircle,
+            placeholder = "3-5 tâches prioritaires à venir",
+            onClick = onNavigateToTasks
+        ),
+        HomeWidget(
+            id = "screen_time",
+            title = "Temps d'écran",
+            icon = Icons.Default.Phone,
+            placeholder = "Graphique + temps total d'aujourd'hui",
+            onClick = onNavigateToScreenTime
+        ),
+        HomeWidget(
+            id = "habits",
+            title = "Habitudes du jour",
+            icon = Icons.Default.TrendingUp,
+            placeholder = "Progress bars des habitudes",
+            onClick = onNavigateToHabits
+        ),
+        HomeWidget(
+            id = "calendar",
+            title = "Agenda",
+            icon = Icons.Default.Event,
+            placeholder = "Événements à venir",
+            onClick = onNavigateToCalendar
+        ),
+        HomeWidget(
+            id = "notes",
+            title = "Notes rapides",
+            icon = Icons.Default.Note,
+            placeholder = "Dernières notes importantes",
+            onClick = onNavigateToNotes
+        ),
+        HomeWidget(
+            id = "sport",
+            title = "Sport & Santé",
+            icon = Icons.Default.FitnessCenter,
+            placeholder = "Objectifs du jour",
+            onClick = onNavigateToSport
+        )
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        // Salutation personnalisée
+        Text(
+            text = "$greeting !",
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        
+        Text(
+            text = "Votre organisation du jour",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
+        // Indicateurs de progression globaux (placeholder)
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            )
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = "Progression du jour",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    ProgressIndicator("Tâches", 0.7f)
+                    ProgressIndicator("Habitudes", 0.5f)
+                    ProgressIndicator("Sport", 0.3f)
+                }
+            }
+        }
+
+        // Grille de widgets
+        HomeWidgetGrid(
+            widgets = widgets,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
+private fun ProgressIndicator(
+    label: String,
+    progress: Float
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        
+        CircularProgressIndicator(
+            progress = progress,
+            modifier = Modifier.size(40.dp),
+            strokeWidth = 4.dp
+        )
+        
+        Text(
+            text = "${(progress * 100).toInt()}%",
+            style = MaterialTheme.typography.labelSmall,
+            fontSize = 10.sp,
+            modifier = Modifier.padding(top = 2.dp)
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+    OrganisationAppTheme {
+        HomeScreen()
+    }
+}
